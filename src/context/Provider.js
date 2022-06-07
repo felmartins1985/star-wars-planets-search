@@ -6,7 +6,11 @@ import PlanetContext from './PlanetContext';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [filter, setFilter] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
   const requestPlanets = async () => {
     const request = await ApiPlanets();
     request.results.map((result) => delete result.residents);
@@ -17,7 +21,7 @@ function Provider({ children }) {
     requestPlanets();
   }, []);
 
-  const value = { data };
+  const value = { data, filter, setFilter, isLoading };
 
   return (
     !isLoading && (
@@ -27,10 +31,10 @@ function Provider({ children }) {
     )
   );
 }
-// Provider.propTypes = {
-//   children: PropTypes.oneOfType([
-//     PropTypes.arrayOf(PropTypes.node),
-//     PropTypes.node,
-//   ]).isRequired,
-// };
+Provider.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+};
 export default Provider;

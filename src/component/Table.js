@@ -2,35 +2,37 @@ import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function Table() {
-  const { data } = useContext(PlanetContext);
+  const { data, isLoading, filter: { filterByName } } = useContext(PlanetContext);
   return (
-    <table>
-      <thead>
-        <tr>
-          {Object.keys(data[0]).map((planet, index) => <th key={index}>{planet}</th>)}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((planet, index) => (
-          <tr key={index}>
-            <td>{planet.name}</td>
-            <td>{planet.rotation_period}</td>
-            <td>{planet.orbital_period}</td>
-            <td>{planet.diameter}</td>
-            <td>{planet.climate}</td>
-            <td>{planet.gravity}</td>
-            <td>{planet.terrain}</td>
-            <td>{planet.surface_water}</td>
-            <td>{planet.population}</td>
-            <td>{planet.films}</td>
-            <td>{planet.created}</td>
-            <td>{planet.edited}</td>
-            <td>{planet.url}</td>
+    !isLoading && (
+      <table>
+        <thead>
+          <tr>
+            {Object.keys(data[0]).map((planet, index) => <th key={ index }>{planet}</th>)}
           </tr>
-        ))}
-      </tbody>
-    </table>
-  );
+        </thead>
+        <tbody>
+          {data.filter((planet) => planet.name.includes(filterByName.name))
+            .map((plnt, index) => (
+              <tr key={ index }>
+                <td>{plnt.name}</td>
+                <td>{plnt.rotation_period}</td>
+                <td>{plnt.orbital_period}</td>
+                <td>{plnt.diameter}</td>
+                <td>{plnt.climate}</td>
+                <td>{plnt.gravity}</td>
+                <td>{plnt.terrain}</td>
+                <td>{plnt.surface_water}</td>
+                <td>{plnt.population}</td>
+                <td>{plnt.films}</td>
+                <td>{plnt.created}</td>
+                <td>{plnt.edited}</td>
+                <td>{plnt.url}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    ));
 }
 
 export default Table;
