@@ -2,25 +2,7 @@ import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function Table() {
-  const { data, filter: { filterByName, isFilter },
-    comparison, column, value } = useContext(PlanetContext);
-  const filteredData = () => {
-    if (isFilter) {
-      return data.filter((planet) => {
-        if (comparison === 'maior que') {
-          return Number(planet[column]) > value;
-        }
-        if (comparison === 'menor que') {
-          return Number(planet[column]) < value;
-        }
-        if (comparison === 'igual a') {
-          return planet[column] === value;
-        }
-        return null;
-      });
-    }
-    return data;
-  };
+  const { data, filter: { filterByName } } = useContext(PlanetContext);
   return (
     <table>
       <thead>
@@ -29,7 +11,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {filteredData().filter((planet) => planet.name.includes(filterByName.name))
+        {data.filter((planet) => planet.name.includes(filterByName.name))
           .map((plnt, index) => (
             <tr key={ index }>
               <td>{plnt.name}</td>

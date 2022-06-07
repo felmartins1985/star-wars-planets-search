@@ -20,7 +20,6 @@ function Provider({ children }) {
         comparison: 'maior que',
         value: '0',
       }],
-    isFilter: false,
   });
   const requestPlanets = async () => {
     const request = await ApiPlanets();
@@ -34,6 +33,7 @@ function Provider({ children }) {
 
   const context = {
     data,
+    setData,
     filter,
     setFilter,
     isLoading,

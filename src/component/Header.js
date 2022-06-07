@@ -8,9 +8,26 @@ function Header() {
     comparison,
     setComparison,
     value,
-    setValue,
+    setValue, setData, data,
   } = useContext(PlanetContext);
 
+  const filteredData = (isFilter) => {
+    if (isFilter) {
+      return data.filter((planet) => {
+        if (comparison === 'maior que') {
+          return Number(planet[column]) > value;
+        }
+        if (comparison === 'menor que') {
+          return Number(planet[column]) < value;
+        }
+        if (comparison === 'igual a') {
+          return planet[column] === value;
+        }
+        return null;
+      });
+    }
+    return data;
+  };
   return (
     <div>
       <h1>Star Wars Planets</h1>
@@ -64,8 +81,8 @@ function Header() {
                 value,
               },
             ],
-            isFilter: true,
           });
+          setData(filteredData(true));
         } }
       >
         Filtrar
