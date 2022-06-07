@@ -6,10 +6,21 @@ import PlanetContext from './PlanetContext';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [value, setValue] = useState('0');
+
   const [filter, setFilter] = useState({
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {
+        column: 'population',
+        comparison: 'maior que',
+        value: '0',
+      }],
+    isFilter: false,
   });
   const requestPlanets = async () => {
     const request = await ApiPlanets();
@@ -21,11 +32,22 @@ function Provider({ children }) {
     requestPlanets();
   }, []);
 
-  const value = { data, filter, setFilter, isLoading };
+  const context = {
+    data,
+    filter,
+    setFilter,
+    isLoading,
+    column,
+    setColumn,
+    comparison,
+    setComparison,
+    value,
+    setValue,
+  };
 
   return (
     !isLoading && (
-      <PlanetContext.Provider value={ value }>
+      <PlanetContext.Provider value={ context }>
         {children}
       </PlanetContext.Provider>
     )
