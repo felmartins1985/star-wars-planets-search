@@ -9,7 +9,7 @@ function Provider({ children }) {
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('0');
-
+  const [data2, setData2] = useState([]);
   const [filter, setFilter] = useState({
     filterByName: {
       name: '',
@@ -25,6 +25,7 @@ function Provider({ children }) {
     const request = await ApiPlanets();
     request.results.map((result) => delete result.residents);
     setData(request.results);
+    setData2(request.results);
     setIsLoading(false);
   };
   useEffect(() => {
@@ -43,6 +44,7 @@ function Provider({ children }) {
     setComparison,
     value,
     setValue,
+    data2,
   };
 
   return (
