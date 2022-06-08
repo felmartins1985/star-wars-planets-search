@@ -19,6 +19,12 @@ function Provider({ children }) {
   };
   const [filterExclude, setFilterExclude] = useState([]);
   const [changes, setChanges] = useState(columnChanges);
+  const [sortOrderColumn, setSortOrderColumn] = useState({
+    order: {
+      column: 'population',
+      sort: 'ASC',
+    },
+  });
   const [filter, setFilter] = useState({
     filterByName: {
       name: '',
@@ -30,10 +36,23 @@ function Provider({ children }) {
         value: '0',
       }],
   });
+  const orderInitialPlanets = (requestApi) => {
+    const arrayOrderInitial = [];
+    const arrayOrderInitialPlanets = requestApi.map((planet) => planet.name);
+    arrayOrderInitialPlanets.sort();
+    arrayOrderInitialPlanets.forEach((planet) => {
+      requestApi.forEach((planetApi) => {
+        if (planet === planetApi.name) {
+          arrayOrderInitial.push(planetApi);
+        }
+      });
+    });
+    return arrayOrderInitial;
+  };
   const requestPlanets = async () => {
     const request = await ApiPlanets();
     request.results.map((result) => delete result.residents);
-    setData(request.results);
+    setData(orderInitialPlanets(request.results));
     setData2(request.results);
     setIsLoading(false);
   };
@@ -82,6 +101,8 @@ function Provider({ children }) {
     filterExclude,
     setFilterExclude,
     columnChanges,
+    sortOrderColumn,
+    setSortOrderColumn,
   };
 
   return (

@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
+// import estreladamorte from '../img/estreladamorte.gif';
 
 function Header() {
   const { filter: { filterByName: { name } }, setFilter,
-    filter, column,
+    filter, column, data,
     setColumn,
     comparison,
     setComparison,
@@ -16,30 +17,42 @@ function Header() {
     setChanges,
     applyFiltersData,
     columnChanges,
+    sortOrderColumn, setSortOrderColumn,
   } = useContext(PlanetContext);
 
-  // const filteredData = (isFilter) => {
-  //   if (isFilter) {
-  //     return data.filter((planet) => {
-  //       if (comparison === 'maior que') {
-  //         return Number(planet[column]) > value;
-  //       }
-  //       if (comparison === 'menor que') {
-  //         return Number(planet[column]) < value;
-  //       }
-  //       if (comparison === 'igual a') {
-  //         return planet[column] === value;
-  //       }
-  //       return null;
-  //     });
-  //   }
-  //   return data;
-  // };
-  // const createListFilter = (column2, comparison2, value2) => {
-  //   setFilterExclude([...filterExclude, { column2, comparison2, value2 }]);
-  // };
+  const functionSortRegular = (columnFunc, sortFunc) => {
+    const planetsWithOutUnknown = [];
+    const planetsWithUnknown = [];
+    const planetsSort = [];
+    data.forEach((planet) => {
+      if (planet[columnFunc] === 'unknown') {
+        planetsWithUnknown.push(planet);
+      } else {
+        planetsWithOutUnknown.push(planet[columnFunc]);
+      }
+    });
+    if (sortFunc === 'ASC') {
+      planetsWithOutUnknown.sort((a, b) => a - b);
+    }
+    if (sortFunc === 'DESC') {
+      planetsWithOutUnknown.sort((a, b) => b - a);
+    }
+    planetsWithOutUnknown.forEach((number) => {
+      data.forEach((planet2) => {
+        if (planet2[columnFunc] === number) {
+          planetsSort.push(planet2);
+        }
+      });
+    });
+    const allPlanetsSort = [
+      ...planetsSort,
+      ...planetsWithUnknown,
+    ];
+    setData(allPlanetsSort);
+  };
   return (
     <div>
+      {/* <img src={ estreladamorte } alt="starwars" /> */}
       <h1>Star Wars Planets</h1>
       <input
         data-testid="name-filter"
@@ -140,6 +153,74 @@ function Header() {
       >
         Delete All
 
+      </button>
+      <select
+        data-testid="column-sort"
+        onChange={ ({ target }) => {
+          setSortOrderColumn({
+            ...sortOrderColumn,
+            order: {
+              ...sortOrderColumn.order,
+              column: target.value,
+            },
+          });
+        } }
+        value={ sortOrderColumn.order.column }
+      >
+        <option value="population">population</option>
+        <option value="orbital_period">orbital_period</option>
+        <option value="diameter">diameter</option>
+        <option value="rotation_period">rotation_period</option>
+        <option value="surface_water">surface_water</option>
+      </select>
+      <label htmlFor="input-radio">
+        Ascendente
+        <input
+          id="input-radio"
+          data-testid="column-sort-input-asc"
+          type="radio"
+          name="order"
+          value="ASC"
+          onChange={ ({ target }) => {
+            setSortOrderColumn({
+              ...sortOrderColumn,
+              order: {
+                ...sortOrderColumn.order,
+                sort: target.value,
+              },
+            });
+          } }
+        />
+      </label>
+      <label htmlFor="input-radio2">
+        Descendente
+        <input
+          id="input-radio2"
+          data-testid="column-sort-input-desc"
+          type="radio"
+          name="order"
+          value="DESC"
+          onChange={ ({ target }) => {
+            console.log(target.value);
+            setSortOrderColumn({
+              ...sortOrderColumn,
+              order: {
+                ...sortOrderColumn.order,
+                sort: target.value,
+              },
+            });
+          } }
+        />
+      </label>
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ () => {
+          functionSortRegular(sortOrderColumn.order.column,
+            sortOrderColumn.order.sort);
+        } }
+      >
+        Ordenar
       </button>
     </div>
   );

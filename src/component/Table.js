@@ -14,7 +14,7 @@ function Table() {
         {data.filter((planet) => planet.name.includes(filterByName.name))
           .map((plnt, index) => (
             <tr key={ index }>
-              <td>{plnt.name}</td>
+              <td data-testid="planet-name">{plnt.name}</td>
               <td>{plnt.rotation_period}</td>
               <td>{plnt.orbital_period}</td>
               <td>{plnt.diameter}</td>
