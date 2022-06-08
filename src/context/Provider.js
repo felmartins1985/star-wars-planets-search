@@ -10,6 +10,14 @@ function Provider({ children }) {
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('0');
   const [data2, setData2] = useState([]);
+  const columnChanges = {
+    population: 'population',
+    orbital_period: 'orbital_period',
+    diameter: 'diameter',
+    rotation_period: 'rotation_period',
+    surface_water: 'surface_water',
+  };
+  const [changes, setChanges] = useState(columnChanges);
   const [filter, setFilter] = useState({
     filterByName: {
       name: '',
@@ -28,6 +36,11 @@ function Provider({ children }) {
     setData2(request.results);
     setIsLoading(false);
   };
+  const deleteChanges = () => {
+    const newChanges = changes;
+    delete newChanges[column];
+    setChanges(newChanges);
+  };
   useEffect(() => {
     requestPlanets();
   }, []);
@@ -45,6 +58,9 @@ function Provider({ children }) {
     value,
     setValue,
     data2,
+    changes,
+    setChanges,
+    deleteChanges,
   };
 
   return (

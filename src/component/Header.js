@@ -9,6 +9,8 @@ function Header() {
     setComparison,
     value,
     setValue, setData, data,
+    changes,
+    deleteChanges,
   } = useContext(PlanetContext);
 
   const filteredData = (isFilter) => {
@@ -47,11 +49,9 @@ function Header() {
           setColumn(e.target.value);
         } }
       >
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
+        {Object.keys(changes).map((option, index) => (
+          <option key={ index } value={ option }>{option}</option>
+        ))}
       </select>
       <select
         data-testid="comparison-filter"
@@ -83,6 +83,8 @@ function Header() {
             ],
           });
           setData(filteredData(true));
+          deleteChanges();
+          console.log(changes);
         } }
       >
         Filtrar
