@@ -17,6 +17,7 @@ function Provider({ children }) {
     rotation_period: 'rotation_period',
     surface_water: 'surface_water',
   };
+  const [filterExclude, setFilterExclude] = useState([]);
   const [changes, setChanges] = useState(columnChanges);
   const [filter, setFilter] = useState({
     filterByName: {
@@ -45,7 +46,24 @@ function Provider({ children }) {
     requestPlanets();
   }, []);
 
+  const applyFiltersData = (filterArray) => {
+    let arrayInitial = data2;
+    filterArray.forEach((change) => {
+      arrayInitial = arrayInitial.filter((planet) => {
+        if (change.comparison === 'maior que') {
+          return Number(planet[change.column]) > Number(change.value);
+        }
+        if (change.comparison === 'menor que') {
+          return Number(planet[change.column]) < Number(change.value);
+        }
+        return planet[change.column] === change.value;
+      });
+    });
+    return arrayInitial;
+  };
+
   const context = {
+    applyFiltersData,
     data,
     setData,
     filter,
@@ -61,6 +79,9 @@ function Provider({ children }) {
     changes,
     setChanges,
     deleteChanges,
+    filterExclude,
+    setFilterExclude,
+    columnChanges,
   };
 
   return (
