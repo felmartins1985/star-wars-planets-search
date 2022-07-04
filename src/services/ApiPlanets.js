@@ -4,3 +4,4 @@ async function fetchPlanets() {
   return data;
 }
 export default fetchPlanets;
+// função criada para pegar a API de planetas;

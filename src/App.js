@@ -8,7 +8,9 @@ function App() {
   return (
     <Provider>
       <Header />
-      <Table />
+      <div className="tableDiv">
+        <Table />
+      </div>
     </Provider>
   );
 }
