@@ -33,17 +33,9 @@ function Header() {
         planetsWithOutUnknown.push(planet);
       }
     });
-    // if (sortFunc === 'ASC') { // se a chave sortFunc for igual a ASC eu faço um sort dos planetas sem unkown
-    //   planetsWithOutUnknown.sort((a, b) => a[columnFunc] - b[columnFunc]);
-    // }
-    // if (sortFunc === 'DESC') { // se a chave sortFunc for igual a DESC eu faço um sort dos planetas sem unkown
-    //   planetsWithOutUnknown.sort((a, b) => b[columnFunc] - a[columnFunc]);
-    // }
-    if (sortFunc === 'ASC') { // se a chave sortFunc for igual a ASC eu faço um sort dos planetas com unkown
-      // planetsWithOutUnknown.sort((a, b) => a[columnFunc] - b[columnFunc]);
+    if (sortFunc === 'ASC') {
       setData([...planetsWithUnknown,
         ...planetsWithOutUnknown.sort((a, b) => a[columnFunc] - b[columnFunc])]);
-      // console.log(planetsWithOutUnknown2);
     } else {
       setData([...planetsWithOutUnknown
         .sort((a, b) => b[columnFunc] - a[columnFunc]), ...planetsWithUnknown]);
@@ -53,8 +45,6 @@ function Header() {
     <div className="Headers form-group">
       <img className="image" src={ starWarsLogo } alt="starWarsLogo" />
       <img className="dartdeathstar" src={ darthvaderback } alt="darthvaderback" />
-      {/* <img className="dartvader" src={ darthvader } alt="darthvader" /> */}
-
       <div className="typePlanetName">
         <input
           className="form-control"
@@ -67,7 +57,6 @@ function Header() {
           }) }
         />
       </div>
-
       <div className="filterDiv">
         <select
           data-testid="column-filter"
@@ -77,7 +66,6 @@ function Header() {
             setColumn(e.target.value); // envio o valor do select para o setColumn para poder enviar depois
           } }
         >
-          {/* requisito 05==> retorna as chaves do state changes atualizadas a cada momento q eu retiro umas das opçoes da column */}
           {Object.keys(changes).map((option, index) => (
             <option
               className="form-control"
@@ -122,8 +110,7 @@ function Header() {
               ],
             });
             setData(applyFiltersData([...filterExclude, { column, comparison, value }]));
-            deleteChanges(); // chamo a changes aqui para deletar a column filtrada para nao poder ser usada depois
-            // console.log(changes);
+            deleteChanges();
             setFilterExclude([...filterExclude, { column, comparison, value }]); // é nessa função que eu demonstro o column que vai ser excluido da lista de column e os valores passados para filtrar
           } }
         >
@@ -247,7 +234,6 @@ function Header() {
           onClick={ () => {
             setFilterExclude([]);// retiro todos os valores do filterExclude
             setChanges(columnChanges); // recebe os filtros originais
-            // console.log(changes);
             const newApplyFiltersData = applyFiltersData([]);
             setData(newApplyFiltersData);// digo que o data vai receber os valores originais
           } }
@@ -259,46 +245,3 @@ function Header() {
   );
 }
 export default Header;
-// const functionSortRegular = (columnFunc, sortFunc) => {
-//   const planetsWithOutUnknown = [];
-//   const planetsWithOutUnknown2 = [];
-//   const planetsWithUnknown = [];
-//   const planetsSort = [];
-//   data.forEach((planet) => {
-//     if (planet[columnFunc] === 'unknown') { // se a chave column tiver como valor unkown
-//       planetsWithUnknown.push(planet);
-//     } else { // se a chave column tiver como valor diferente de unkown
-//       planetsWithOutUnknown.push(planet[columnFunc]);
-//       planetsWithOutUnknown2.push(planet);
-//     }
-//   });
-//   if (sortFunc === 'ASC') { // se a chave sortFunc for igual a ASC eu faço um sort dos planetas sem unkown
-//     planetsWithOutUnknown.sort((a, b) => a - b);
-//     planetsWithOutUnknown2.sort((a, b) => a[columnFunc] - b[columnFunc]);
-//   }
-//   if (sortFunc === 'DESC') { // se a chave sortFunc for igual a DESC eu faço um sort dos planetas sem unkown
-//     planetsWithOutUnknown.sort((a, b) => b - a);
-//     planetsWithOutUnknown2.sort((a, b) => b[columnFunc] - a[columnFunc]);
-//   }
-//   planetsWithOutUnknown.forEach((plnt2) => { // para cada planeta adicionado na primeira lista, eu faço um forEach para cada planeta retornado de data
-//     data.forEach((planet2) => { // se o valor retornado do planetsWithOutUnknown for igual ao valor retornado planet2[columnFunc] do data, eu  adiciono planet2 no array planetsSort
-//       // console.log(planet2, column, plnt2);
-//       if (planet2[columnFunc] === plnt2) {
-//         planetsSort.push(planet2);
-//       }
-//     });
-//   });
-//   console.log(planetsWithOutUnknown2, planetsWithUnknown);
-//   if (planetsWithUnknown.length === 0) {
-//     setData(planetsWithOutUnknown2);
-//     // console.log(planetsWithOutUnknown2);
-//   } else {
-//     // console.log('teste');
-//     // se o array planetsWithUnknown tiver mais de 0 planetas, eu adiciono os planetas como ultimo elemento do array planetsSort
-//     const allPlanetsSort = [// array que recebe os planetas ordenados e os que possuem unkown
-//       ...planetsSort,
-//       ...planetsWithUnknown,
-//     ];
-//     setData(allPlanetsSort);
-//   } // seto o data com os planetas ordenados
-// };
