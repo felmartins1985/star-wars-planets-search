@@ -33,5 +33,5 @@ npm start // para iniciar a aplicação
 👨🏻‍💻 **Acessar:** _[Clique Aqui](https://star-wars-planets-search-felmartins1985.vercel.app/)_
 
 <p align="center">
-  <img src="https://github.com/guilherme-ac-fernandes/starwars-planets-search/blob/main/starwars-planets-search.png" alt="Star Wars Planets Search Gif - Demostração"/>
+  <img src="https://github.com/felmartins1985/star-wars-planets-search/blob/main/Captura%20de%20tela%20de%202022-10-06%2018-48-15.png" alt="Star Wars Planets Search Gif - Demostração"/>
 </p>
